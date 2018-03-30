@@ -1,2 +1,3 @@
 com\api\rest\global\warming\main\Main.class
 com\api\rest\global\warming\controller\GlobalWarmingController.class
+com\api\rest\global\warming\service\GlobalWarmingService.class
