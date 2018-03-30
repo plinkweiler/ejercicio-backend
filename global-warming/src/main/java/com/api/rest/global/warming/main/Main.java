@@ -1,12 +1,17 @@
 package com.api.rest.global.warming.main;
 
+import java.nio.charset.Charset;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootApplication(scanBasePackages = {"com.api.rest.global.warming.controller"})
+@SpringBootApplication(scanBasePackages = {"com.api.rest.global.warming.controller",
+		"com.api.rest.global.warming.service"})
 public class Main {
 
 	public static void main(String[] args) {
@@ -17,6 +22,14 @@ public class Main {
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
 	   // Do any additional configuration here
 	   return builder.build();
+	}
+	
+	@Bean
+	public HttpHeaders httpHeaders() {
+		HttpHeaders headers = new HttpHeaders();
+		MediaType mediaType = new MediaType("application", "json", Charset.forName("UTF-8"));
+		headers.setContentType(mediaType);
+		return headers;
 	}
 
 }
