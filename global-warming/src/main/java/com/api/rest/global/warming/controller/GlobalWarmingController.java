@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -16,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 
 import com.api.rest.global.warming.service.GlobalWarmingService;
+import com.api.rest.global.warming.util.Constants;
 
 @RestController
 @RequestMapping(value = "/globalWarming")
 public class GlobalWarmingController {
 	
 	private Map<String, JSONObject> info = new ConcurrentHashMap<String, JSONObject>();
-	static final String USER_URI = "https://api.github.com/users/";
 	
 	@Autowired
 	HttpHeaders httpHeaders;
@@ -30,8 +31,8 @@ public class GlobalWarmingController {
 	@Autowired
 	GlobalWarmingService service;
 	
-	@RequestMapping(value = "/getAllInfo", method = RequestMethod.GET)
-	public ResponseEntity<String> getAllInfo() {
+	@RequestMapping(value = "/getSaveInfo", method = RequestMethod.GET)
+	public ResponseEntity<String> getSaveInfo() throws JSONException {
 		
 		JSONArray jsonArray = new JSONArray();
 		jsonArray.put(info);
@@ -42,7 +43,7 @@ public class GlobalWarmingController {
 	}
 	
 	@RequestMapping(value = "/getUserInfo/{username}", method = RequestMethod.GET)
-	public ResponseEntity<String> getUserInfo(@PathVariable String username) {
+	public ResponseEntity<String> getUserInfo(@PathVariable String username) throws JSONException {
 		
 		JSONArray jsonArray = new JSONArray();
 		JSONArray obj = new JSONArray();
@@ -51,7 +52,7 @@ public class GlobalWarmingController {
 			
 			String location = service.getUserLocation(username);
 			if(!"ERROR".equals(location)) {
-				final String uriUserRepos = USER_URI + username + "/repos";
+				final String uriUserRepos = Constants.USER_URI + username + "/repos";
 				jsonArray = service.getRepoInfo(uriUserRepos);
 				obj = service.getAverageTemperature(location, jsonArray);
 			}else {
@@ -70,8 +71,11 @@ public class GlobalWarmingController {
 		}
 	    
 		JSONObject outputJsonObj = new JSONObject();
-	    outputJsonObj.put("Cantidad de repos", jsonArray.length());
-	    outputJsonObj.put("Temperatura promedio", obj);
+
+		outputJsonObj.put("cantidad_repos", jsonArray.length());
+		outputJsonObj.put("temperatura_promedio", obj);
+
+	    
 	    info.put(username, outputJsonObj);
 	    
 	    return new ResponseEntity<String>(outputJsonObj.toString(),httpHeaders,HttpStatus.OK);

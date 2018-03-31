@@ -3,7 +3,7 @@
   <groupId>org.api.rest.global.warming</groupId>
   <artifactId>global-warming</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
 
 	<properties>
     	<maven.test.failure.ignore>true</maven.test.failure.ignore>
@@ -15,7 +15,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.7</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -24,6 +24,17 @@
             <version>${spring.framework.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-test</artifactId>
+		    <version>${spring.framework.boot.version}</version>
+		    <scope>test</scope>
+		</dependency>
+		<dependency>
+		  <groupId>org.skyscreamer</groupId>
+		  <artifactId>jsonassert</artifactId>
+		  <version>1.5.0</version>
+		</dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
@@ -45,20 +56,31 @@
             <artifactId>log4j</artifactId>
             <version>1.2.14</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.kohsuke/github-api -->
-		<dependency>
-    		<groupId>org.kohsuke</groupId>
-    		<artifactId>github-api</artifactId>
-    		<version>1.92</version>
-		</dependency>
 		<dependency>
     		<groupId>org.json</groupId>
     		<artifactId>json</artifactId>
     		<version>20171018</version>
 		</dependency>
         
-    </dependencies>
-    <build>
+	    </dependencies>
+	    <build>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>${spring.framework.boot.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</build>
+<!--     <build>
+    <finalName>ejercicio-backend</finalName>
     <plugins>
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -78,5 +100,5 @@
    			</configuration>
 		</plugin>
     </plugins>
-</build>
+	</build> -->
 </project>

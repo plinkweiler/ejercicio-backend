@@ -8,12 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.api.rest.global.warming.util.Constants;
+
 @Service
 public class GlobalWarmingService {
-	
-	static final String KEY = "8e087ae47efe4d4288e230637182302";
-	static final String WEATHER_URI = "http://api.worldweatheronline.com/premium/v1/past-weather.ashx?key=" + KEY;
-	static final String USER_URI = "https://api.github.com/users/";
 	
 	@Autowired
 	RestTemplate restTemplate;
@@ -22,7 +20,7 @@ public class GlobalWarmingService {
 		
 		String location = "";
 		try {
-	    	String userInfo = restTemplate.getForObject(USER_URI + username, String.class);
+	    	String userInfo = restTemplate.getForObject(Constants.USER_URI + username, String.class);
 	    	JSONObject jsonUserInfo = new JSONObject(userInfo);
 	    	location = jsonUserInfo.getString("location");
 		}catch (JSONException e) {
@@ -36,7 +34,7 @@ public class GlobalWarmingService {
 	    return location;
 	}
 	
-	public JSONArray getRepoInfo(String uriUserRepos) throws RestClientException{
+	public JSONArray getRepoInfo(String uriUserRepos) throws RestClientException,JSONException{
 		
 		JSONArray jsonArray = new JSONArray();
 		try {
@@ -49,7 +47,7 @@ public class GlobalWarmingService {
 	    return jsonArray;
 	}
 
-	public JSONArray getAverageTemperature(String location, JSONArray jsonArray) throws RestClientException{
+	public JSONArray getAverageTemperature(String location, JSONArray jsonArray) throws RestClientException,JSONException{
 		JSONArray returnObject = new JSONArray();
 	    for(int i =0; i< jsonArray.length(); i++){
 	    	String createdDate = "";
@@ -58,7 +56,7 @@ public class GlobalWarmingService {
 		                JSONObject jsnObj = (JSONObject)jsonArray.get(i);
 		                createdDate = jsnObj.getString("created_at");
 		                
-		                final String weatherUri = WEATHER_URI +"&q="+location+"&format=json&date="+createdDate;	    
+		                final String weatherUri = Constants.WEATHER_URI +"&q="+location+"&format=json&date="+createdDate;	    
 		        	    String weatherInfo = restTemplate.getForObject(weatherUri, String.class);
 		        	    JSONObject jsonWeatherInfo = new JSONObject(weatherInfo);
 		        	    

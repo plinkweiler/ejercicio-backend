@@ -1,3 +1,6 @@
-com\api\rest\global\warming\main\Main.class
+com\api\rest\global\warming\exception\RestExceptionHandler.class
+com\api\rest\global\warming\main\Application.class
+com\api\rest\global\warming\util\Constants.class
+com\api\rest\global\warming\exception\ApiError.class
 com\api\rest\global\warming\controller\GlobalWarmingController.class
 com\api\rest\global\warming\service\GlobalWarmingService.class
