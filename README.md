@@ -1,6 +1,15 @@
 # ejercicio-backend
 Ejercicio backend api rest
 
+# Para ejecutar en Tomcat
+Utilizar el war ejercicio-backend.war, utilice tomcat 9
+
+https://tomcat.apache.org/download-90.cgi
+
+ingresando en cualquier navegar la url http://localhost:8080/ejercicio-backend/globalWarming/getUserInfo/{username} se obtiene la info pedida, por ejemplo http://localhost:8080/ejercicio-backend/globalWarming/getUserInfo/carlos.
+
+Y con la siguiente url los datos que estan en memoria http://localhost:8080/ejercicio-backend/globalWarming/getSaveInfo
+
 # Pasos para la instalación y ejecución de la API
 
 1 - Descargar el proyecto
